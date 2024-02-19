@@ -1,9 +1,9 @@
 package service
 
 import (
-	"storage/internal/pkg/service/item_service"
-	"storage/internal/pkg/service/stock_service"
-	"storage/internal/pkg/storage"
+	"github.com/delinack/stock/internal/pkg/service/item_service"
+	"github.com/delinack/stock/internal/pkg/service/stock_service"
+	"github.com/delinack/stock/internal/pkg/storage"
 )
 
 // Service for all service interfaces

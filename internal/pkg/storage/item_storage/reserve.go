@@ -2,9 +2,13 @@ package item_storage
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
-	"storage/internal/pkg/model"
+	"github.com/delinack/stock/internal/pkg/custom_error"
+	"github.com/rs/zerolog/log"
 
+	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -14,7 +18,8 @@ import (
 func (r *itemRepository) ReserveItems(ctx context.Context, itemsForReserve []model.ReservedItem, itemsForUpdate []model.Item) error {
 	tx, err := r.db.BeginTxx(ctx, nil)
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("db.BeginTxx failed")
+		return custom_error.ErrWithTransaction
 	}
 	defer tx.Rollback()
 
@@ -34,7 +39,8 @@ func (r *itemRepository) ReserveItems(ctx context.Context, itemsForReserve []mod
 
 	err = tx.Commit()
 	if err != nil {
-		return fmt.Errorf("tx.Commit failed: %w", err)
+		log.Error().Err(err).Msg("tx.Commit failed")
+		return custom_error.ErrWithTransaction
 	}
 
 	return nil
@@ -49,7 +55,11 @@ func (r *itemRepository) reduceItemQuantity(ctx context.Context, tx *sqlx.Tx, it
 
 	_, err = tx.ExecContext(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("tx.ExecContext failed: %w: cannot execute reduce item quantity query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return custom_error.ErrNotFound
+		} else {
+			return fmt.Errorf("tx.ExecContext failed: %w: cannot execute reduce item quantity query", err)
+		}
 	}
 
 	return nil
@@ -64,7 +74,11 @@ func (r *itemRepository) reserveItem(ctx context.Context, tx *sqlx.Tx, item mode
 
 	_, err = tx.ExecContext(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("tx.ExecContext failed: %w: cannot execute reserve item query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return custom_error.ErrNotFound
+		} else {
+			return fmt.Errorf("tx.ExecContext failed: %w: cannot execute reserve item query", err)
+		}
 	}
 
 	// уменьшаем количество доступного для резера товара
@@ -75,7 +89,11 @@ func (r *itemRepository) reserveItem(ctx context.Context, tx *sqlx.Tx, item mode
 
 	_, err = tx.ExecContext(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("tx.ExecContext failed: %w: cannot execute reduce item quantity on stock query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return custom_error.ErrNotFound
+		} else {
+			return fmt.Errorf("tx.ExecContext failed: %w: cannot execute reduce item quantity on stock query", err)
+		}
 	}
 
 	return nil

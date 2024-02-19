@@ -2,8 +2,9 @@ package stock_service
 
 import (
 	"context"
-	"storage/internal/pkg/domain_model"
-	"storage/internal/pkg/storage"
+
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/storage"
 )
 
 // StockService for all stock methods

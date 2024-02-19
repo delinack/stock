@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"stock/internal/pkg/storage/item_storage"
-	"stock/internal/pkg/storage/stock_storage"
+	"github.com/delinack/stock/internal/pkg/storage/item_storage"
+	"github.com/delinack/stock/internal/pkg/storage/stock_storage"
 )
 
 // Store for all stock interfaces.

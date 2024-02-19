@@ -2,10 +2,13 @@ package stock_storage
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
-	"stock/internal/pkg/domain_model"
-	"stock/internal/pkg/model"
+	"github.com/delinack/stock/internal/pkg/custom_error"
 
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/google/uuid"
 )
 
@@ -20,7 +23,11 @@ func (r *stockRepository) GetItemsQuantity(ctx context.Context, params *domain_m
 
 	err = r.db.SelectContext(ctx, &quantity, q, args...)
 	if err != nil {
-		return nil, fmt.Errorf("db.SelectContext failed: %w: get items quantity query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, custom_error.ErrNotFound
+		} else {
+			return nil, fmt.Errorf("db.SelectContext failed: %w: get items quantity query", err)
+		}
 	}
 
 	return quantity, nil
@@ -37,7 +44,11 @@ func (r *stockRepository) GetItemQuantity(ctx context.Context, stockID uuid.UUID
 
 	err = r.db.GetContext(ctx, &quantity, q, args...)
 	if err != nil {
-		return 0, fmt.Errorf("db.GetContext failed: %w: get item quantity query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, custom_error.ErrNotFound
+		} else {
+			return 0, fmt.Errorf("db.GetContext failed: %w: get item quantity query", err)
+		}
 	}
 
 	return quantity, nil
@@ -54,7 +65,11 @@ func (r *stockRepository) CheckAvailability(ctx context.Context, stockID uuid.UU
 
 	err = r.db.GetContext(ctx, &isAvailable, q, args...)
 	if err != nil {
-		return false, fmt.Errorf("db.GetContext failed: %w: get availability query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return false, custom_error.ErrNotFound
+		} else {
+			return false, fmt.Errorf("db.GetContext failed: %w: get availability query", err)
+		}
 	}
 
 	return isAvailable, nil

@@ -3,9 +3,9 @@ package item_service
 import (
 	"context"
 	"fmt"
-	"stock/internal/pkg/domain_model"
-	"stock/internal/pkg/service/serializer"
-
+	"github.com/delinack/stock/internal/pkg/custom_error"
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/service/serializer"
 	"github.com/rs/zerolog/log"
 )
 
@@ -19,7 +19,7 @@ func (s *itemService) ReserveItems(ctx context.Context, params *domain_model.Res
 		return fmt.Errorf("storage.CheckAvailability failed: %w", err)
 	}
 	if !isAvailable {
-		return fmt.Errorf("stock is unavailable")
+		return custom_error.ErrUnavailableStock
 	}
 
 	for _, item := range params.Items {
@@ -29,11 +29,11 @@ func (s *itemService) ReserveItems(ctx context.Context, params *domain_model.Res
 		}
 		if availableQuantity < item.Quantity {
 			log.Error().Msgf("item - %s: available quantity %d < request quantity %d", item.ItemID, availableQuantity, item.Quantity)
-			return fmt.Errorf("quantity of items for reservation is more than available")
+			return custom_error.ErrExceededValue
 		}
 		if item.Quantity == 0 {
 			log.Error().Msg("quantity for reserve cannot be null")
-			return fmt.Errorf("null quantity")
+			return custom_error.ErrNullValue
 		}
 	}
 

@@ -1,9 +1,9 @@
 package config
 
 import (
+	"github.com/delinack/stock/internal/pkg/logger"
+	"github.com/delinack/stock/internal/pkg/storage"
 	"github.com/spf13/viper"
-	"storage/internal/pkg/logger"
-	"storage/internal/pkg/storage"
 )
 
 // ApplicationConfig the main config for app

@@ -2,10 +2,14 @@ package item_storage
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
-	"stock/internal/pkg/model"
-	"stock/internal/pkg/service/serializer"
+	"github.com/delinack/stock/internal/pkg/custom_error"
+	"github.com/rs/zerolog/log"
 
+	"github.com/delinack/stock/internal/pkg/model"
+	"github.com/delinack/stock/internal/pkg/service/serializer"
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/guregu/null.v4"
 )
@@ -17,11 +21,11 @@ import (
 func (r *itemRepository) DeleteReservation(ctx context.Context, items []model.ReservedItem) error {
 	tx, err := r.db.BeginTxx(ctx, nil)
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("db.BeginTxx failed")
+		return custom_error.ErrWithTransaction
 	}
 	defer tx.Rollback()
 
-	//itemModel := serializer.ToItemsModelFromDeleteRequest()
 	for _, reservedItem := range items {
 		quantity, err := r.deleteItemReservation(ctx, tx, reservedItem)
 		if err != nil {
@@ -43,7 +47,8 @@ func (r *itemRepository) DeleteReservation(ctx context.Context, items []model.Re
 
 	err = tx.Commit()
 	if err != nil {
-		return fmt.Errorf("tx.Commit failed: %w", err)
+		log.Error().Err(err).Msg("tx.Commit failed")
+		return custom_error.ErrWithTransaction
 	}
 
 	return nil
@@ -58,12 +63,20 @@ func (r *itemRepository) deleteItemReservation(ctx context.Context, tx *sqlx.Tx,
 
 	row := tx.QueryRowContext(ctx, q, args...)
 	if row.Err() != nil {
-		return null.Int{}, fmt.Errorf("tx.QueryRowContext failed: %w: cannot execute delete item reservation query", row.Err())
+		if errors.Is(row.Err(), sql.ErrNoRows) {
+			return null.Int{}, custom_error.ErrNotFound
+		} else {
+			return null.Int{}, fmt.Errorf("tx.QueryRowContext failed: %w: cannot execute delete item reservation query", row.Err())
+		}
 	}
 
 	err = row.Scan(&item.Quantity)
 	if err != nil {
-		return null.Int{}, fmt.Errorf("row.Scan failed: %w", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return null.Int{}, custom_error.ErrNotFound
+		} else {
+			return null.Int{}, fmt.Errorf("row.Scan failed: %w", err)
+		}
 	}
 
 	return item.Quantity, nil
@@ -78,7 +91,11 @@ func (r *itemRepository) addItemQuantity(ctx context.Context, tx *sqlx.Tx, item 
 
 	_, err = tx.ExecContext(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("tx.ExecContext failed: %w: cannot execute add item quantity query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return custom_error.ErrNotFound
+		} else {
+			return fmt.Errorf("tx.ExecContext failed: %w: cannot execute add item quantity query", err)
+		}
 	}
 
 	return nil
@@ -93,7 +110,11 @@ func (r *itemRepository) addItemQuantityOnStock(ctx context.Context, tx *sqlx.Tx
 
 	_, err = tx.ExecContext(ctx, q, args...)
 	if err != nil {
-		return fmt.Errorf("tx.ExecContext failed: %w: cannot execute add item quantity on stock query", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return custom_error.ErrNotFound
+		} else {
+			return fmt.Errorf("tx.ExecContext failed: %w: cannot execute add item quantity on stock query", err)
+		}
 	}
 
 	return nil

@@ -2,9 +2,9 @@ package stock_storage
 
 import (
 	"fmt"
-	"stock/internal/pkg/domain_model"
 
 	sq "github.com/Masterminds/squirrel"
+	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/google/uuid"
 )
 

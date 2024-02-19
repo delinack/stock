@@ -3,9 +3,10 @@ package stock_service
 import (
 	"context"
 	"fmt"
-	"storage/internal/pkg/domain_model"
-	"storage/internal/pkg/service/serializer"
+	"github.com/delinack/stock/internal/pkg/custom_error"
 
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/service/serializer"
 	"github.com/rs/zerolog/log"
 )
 
@@ -16,7 +17,7 @@ func (s *stockService) GetItemsQuantityOnStock(ctx context.Context, params *doma
 		return nil, fmt.Errorf("storage.CheckAvailability failed: %w", err)
 	}
 	if !isAvailable {
-		return nil, fmt.Errorf("stock is unavailable")
+		return nil, custom_error.ErrUnavailableStock
 	}
 
 	quantityModel, err := s.storage.GetItemsQuantity(ctx, params)

@@ -1,9 +1,9 @@
 package domain
 
 import (
-	"storage/internal/domain/item_domain"
-	"storage/internal/domain/stock_domain"
-	"storage/internal/pkg/service"
+	"github.com/delinack/stock/internal/domain/item_domain"
+	"github.com/delinack/stock/internal/domain/stock_domain"
+	"github.com/delinack/stock/internal/pkg/service"
 )
 
 //// Domain for all domain interfaces

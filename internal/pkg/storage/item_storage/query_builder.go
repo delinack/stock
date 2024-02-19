@@ -2,9 +2,9 @@ package item_storage
 
 import (
 	"fmt"
-	"storage/internal/pkg/model"
 
 	sq "github.com/Masterminds/squirrel"
+	"github.com/delinack/stock/internal/pkg/model"
 )
 
 const (

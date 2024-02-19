@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS stocks (
     updated_at timestamp,
     deleted_at timestamp,
     PRIMARY KEY (id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS items (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS items (
     updated_at timestamp,
     deleted_at timestamp,
     PRIMARY KEY (id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS reserved_items (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -31,12 +31,14 @@ CREATE TABLE IF NOT EXISTS reserved_items (
     created_at timestamp NOT NULL,
     updated_at timestamp,
     CONSTRAINT items_stocks_stocks_fkey
-        FOREIGN KEY (stock_id) REFERENCES stocks (id),
+    FOREIGN KEY (stock_id) REFERENCES stocks (id),
     CONSTRAINT reserved_items_items_fkey
-        FOREIGN KEY (item_id) REFERENCES items (id),
+    FOREIGN KEY (item_id) REFERENCES items (id),
     UNIQUE(stock_id, item_id),
     PRIMARY KEY (id)
     );
+
+CREATE INDEX stock_id_item_id_reserved_items_idx ON reserved_items (stock_id, item_id);
 
 CREATE TABLE IF NOT EXISTS items_stocks (
     id uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -47,12 +49,14 @@ CREATE TABLE IF NOT EXISTS items_stocks (
     updated_at timestamp,
     deleted_at timestamp,
     CONSTRAINT items_stocks_stocks_fkey
-        FOREIGN KEY (stock_id) REFERENCES stocks (id),
+    FOREIGN KEY (stock_id) REFERENCES stocks (id),
     CONSTRAINT items_stocks_items_fkey
-        FOREIGN KEY (item_id) REFERENCES items (id),
+    FOREIGN KEY (item_id) REFERENCES items (id),
     UNIQUE(stock_id, item_id),
     PRIMARY KEY (id)
-);
+    );
+
+CREATE INDEX stock_id_item_id_items_stocks_idx ON items_stocks (stock_id, item_id);
 
 -- +goose StatementEnd
 

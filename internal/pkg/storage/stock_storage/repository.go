@@ -2,9 +2,9 @@ package stock_storage
 
 import (
 	"context"
-	"stock/internal/pkg/domain_model"
-	"stock/internal/pkg/model"
 
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )

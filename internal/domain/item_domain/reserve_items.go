@@ -1,33 +1,32 @@
 package item_domain
 
 import (
+	"errors"
+	"github.com/delinack/stock/internal/pkg/custom_error"
 	"net/http"
-	"storage/internal/pkg/domain_model"
 
+	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/rs/zerolog/log"
 )
 
-// ReserveItemsForDelivery резервирование товара на складе для доставки
-func (d *itemDomain) ReserveItemsForDelivery(r *http.Request, args *domain_model.ReserveItemsOnStockForDeliveryRequest, response *domain_model.Response) error {
+func (d *itemDomain) ReserveItemsForDelivery(r *http.Request, args *domain_model.ReserveItemsOnStockForDeliveryRequest, response *interface{}) error {
 	err := d.service.ReserveItems(r.Context(), args)
 	if err != nil {
 		log.Error().Err(err).Send()
-		return err // TODO человекочитаемая ошибка
+		if errors.Is(err, custom_error.ErrNotFound) {
+			return custom_error.ErrNotFound
+		} else if errors.Is(err, custom_error.ErrUnavailableStock) {
+			return custom_error.ErrUnavailableStock
+		} else if errors.Is(err, custom_error.ErrNullValue) {
+			return custom_error.ErrNullValue
+		} else if errors.Is(err, custom_error.ErrExceededValue) {
+			return custom_error.ErrExceededValue
+		} else {
+			return custom_error.ErrUnexpected
+		}
 	}
 
-	*response = domain_model.BuildResponse("items have been reserved")
-
-	return nil
-}
-
-func (d *itemDomain) DeleteItemsReservation(r *http.Request, args *domain_model.DeleteItemsReserveRequest, response *domain_model.Response) error {
-	err := d.service.DeleteItemsReservation(r.Context(), args)
-	if err != nil {
-		log.Error().Err(err).Send()
-		return err // TODO человекочитаемая ошибка
-	}
-
-	*response = domain_model.BuildResponse("item's reservation have been deleteed")
+	*response = domain_model.BuildResponse("items have been reserved").Result
 
 	return nil
 }

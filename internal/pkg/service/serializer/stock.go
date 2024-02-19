@@ -1,8 +1,8 @@
 package serializer
 
 import (
-	"storage/internal/pkg/domain_model"
-	"storage/internal/pkg/model"
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/model"
 )
 
 // ToGetItemsQuantityResponse .

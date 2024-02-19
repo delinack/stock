@@ -2,13 +2,14 @@ package stock_domain
 
 import (
 	"net/http"
-	"storage/internal/pkg/domain_model"
-	"storage/internal/pkg/service"
+
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/service"
 )
 
 // StockDomain for templates domain methods
 type StockDomain interface {
-	GetItemsQuantity(*http.Request, *domain_model.GetItemsQuantityRequest, *domain_model.Response) error
+	GetItemsQuantity(*http.Request, *domain_model.GetItemsQuantityRequest, *interface{}) error
 }
 
 type stockDomain struct {

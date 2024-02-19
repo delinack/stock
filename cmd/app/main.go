@@ -6,30 +6,20 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"stock/internal/config"
-	"stock/internal/domain"
-	"stock/internal/pkg/logger"
-	"stock/internal/pkg/server"
-	"stock/internal/pkg/service"
-	"stock/internal/pkg/storage"
-	"stock/internal/pkg/storage/item_storage"
-	"stock/internal/pkg/storage/stock_storage"
-
 	"syscall"
 	"time"
 
+	"github.com/delinack/stock/internal/config"
+	"github.com/delinack/stock/internal/domain"
+	"github.com/delinack/stock/internal/pkg/logger"
+	"github.com/delinack/stock/internal/pkg/server"
+	"github.com/delinack/stock/internal/pkg/service"
+	"github.com/delinack/stock/internal/pkg/storage"
+	"github.com/delinack/stock/internal/pkg/storage/item_storage"
+	"github.com/delinack/stock/internal/pkg/storage/stock_storage"
 	"github.com/rs/zerolog/log"
 )
 
-// insert into items (name, size, quantity, created_at) values ('asd', 'S', 30, now()), ('qwe', 'M', 13, now()), ('zxc', 'M', 9, now()), ('jhg', 'L', 65, now()), ('iop', 'S', 34, now());
-
-// insert into stocks (name, is_available, created_at) values ('1', true, now()), ('2', false, now()), ('3', true, now()), ('4', true, now()), ('5', true, now());
-
-// insert into items_stocks (stock_id, item_id, quantity, created_at) values ((select id from stocks where name = '1'), (select id from items where name = 'asd'), 15, now()), ((select id from stocks where name = '3'), (select id from items where name = 'asd'), 15, now()), ((select id from stocks where name = '3'), (select id from items where name = 'zxc'), 9, now());
-
-// insert into items (name, size, quantity, created_at) values ('dress', 'S', 10, now());
-// insert into stocks (name, is_available, created_at) values ('dress_stock', true, now());
-// insert into items_stocks (stock_id, item_id, quantity, created_at) values ((select id from stocks where name = 'dress_stock'), (select id from items where name = 'dress'), 10, now());
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

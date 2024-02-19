@@ -2,8 +2,9 @@ package item_service
 
 import (
 	"context"
-	"stock/internal/pkg/domain_model"
-	"stock/internal/pkg/storage"
+
+	"github.com/delinack/stock/internal/pkg/domain_model"
+	"github.com/delinack/stock/internal/pkg/storage"
 )
 
 // ItemService for all items methods

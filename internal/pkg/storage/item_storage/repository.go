@@ -2,8 +2,8 @@ package item_storage
 
 import (
 	"context"
-	"stock/internal/pkg/model"
 
+	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/jmoiron/sqlx"
 )
 

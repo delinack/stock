@@ -1,10 +1,11 @@
 module github.com/delinack/stock
 
-go 1.21
+go 1.22
 
 require (
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/go-playground/validator/v10 v10.18.0
+	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.4.0
 	github.com/gorilla/rpc v1.2.1
 	github.com/jackc/pgx v3.6.2+incompatible
@@ -12,11 +13,13 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/rs/zerolog v1.32.0
 	github.com/spf13/viper v1.18.2
+	github.com/stretchr/testify v1.8.4
 	gopkg.in/guregu/null.v4 v4.0.0
 )
 
 require (
 	github.com/cockroachdb/apd v1.1.0 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -33,6 +36,7 @@ require (
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect

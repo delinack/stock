@@ -2,9 +2,9 @@ package server
 
 import (
 	"net/http"
-	"storage/internal/domain"
 	"time"
 
+	"github.com/delinack/stock/internal/domain"
 	"github.com/gorilla/rpc/v2"
 	"github.com/gorilla/rpc/v2/json"
 	"github.com/rs/zerolog/log"
@@ -37,26 +37,6 @@ func NewServer(handlers *domain.Domain, port string) *Server {
 		ReadHeaderTimeout: 10 * time.Second,
 		ReadTimeout:       5 * time.Second,
 	}
-
-	//srv.Echo = echo.New()
-	//srv.Echo.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-	//	LogLatency:  true,
-	//	LogRemoteIP: true,
-	//	LogURI:      true,
-	//	LogMethod:   true,
-	//	LogError:    true,
-	//	LogValuesFunc: func(_ echo.Context, v middleware.RequestLoggerValues) error {
-	//		log.Info().Str("comp", "server").
-	//			Str("URI", v.URI).Str("remote_ip", v.RemoteIP).
-	//			Str("method", v.Method).Dur("latency", v.Latency).
-	//			Interface("params", v.FormValues).
-	//			Send()
-	//		return nil
-	//	},
-	//}))
-
-	//r := mux.NewRouter()
-	//r.Handle("/", server)
 
 	return &srv
 }

@@ -8,6 +8,6 @@ type Response struct {
 // BuildResponse response builder
 func BuildResponse(result interface{}) Response {
 	return Response{
-		Result: result,
+		result,
 	}
 }
