@@ -30,9 +30,9 @@ API для работы с товарами на складе
 
 request:
 ```
-curl -X POST http://localhost:8080 -H 'content-type: application/json' -d
+curl -X POST http://localhost:8080 -H 'content-type: application/json' -d \
 '{
-    "jsonrpc": "2.0", 
+    "jsonrpc": "2.0",
     "method": "Item.ReserveItemsForDelivery", 
     "params": [
         {
@@ -62,16 +62,16 @@ response:
 
 request:
 ```
-curl -X POST http://localhost:8080 -H 'content-type: application/json' -d
+curl -X POST http://localhost:8080 -H 'content-type: application/json' -d \
 '{
-    "jsonrpc": "2.0", 
+    "jsonrpc": "2.0",
     "method": "Item.DeleteItemsReservation", 
     "params": [
     	{
         	"stock_id": "5fe06170-4fb3-429a-b950-1ae1a037376e",
         	"items": [
         	    {
-        	        "id": "f2aaa171-0118-497b-a0f3-bcffb82533f1",
+        	        "id": "f2aaa171-0118-497b-a0f3-bcffb82533f1"
         	    }
         	]
         }
@@ -93,15 +93,15 @@ response:
 
 request:
 ```
-curl -X POST http://localhost:8080 -H 'content-type: application/json' -d
+curl -X POST http://localhost:8080 -H 'content-type: application/json' -d \
 '{
-    "jsonrpc": "2.0", 
+    "jsonrpc": "2.0",
     "method": "Stock.GetItemsQuantity", 
     "params": [
         {
             "stock_id": "719ece6f-65fc-4cc2-b542-7dc673c6c6a8"
         }
-    ], 
+    ],
     "id": 1
 }'
 ```
