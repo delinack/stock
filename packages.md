@@ -12,7 +12,7 @@ github.com/google/uuid - пакет для работы с типом uuid. Им
 
 github.com/gorilla/rpc - пакет для создания rpc сервера. Имеет понятную документацию с понятными требованиями для методов.
 
-github.com/jackc/pgx и github.com/jmoiron/sqlx - пакеты для создания подключения к базе
+github.com/jackc/pgx и github.com/jmoiron/sqlx - пакеты для работы с базой
 
 github.com/mitchellh/mapstructure и github.com/spf13/viper - маппинг переменные среды с переменными структуры по тегам
 
