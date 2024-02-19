@@ -1,0 +1,2 @@
+# stock
+тестовое в lamoda
