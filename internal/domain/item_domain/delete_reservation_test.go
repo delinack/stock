@@ -1,6 +1,9 @@
 package item_domain
 
 import (
+	"net/http"
+	"testing"
+
 	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/delinack/stock/internal/pkg/mock/storage_mock"
@@ -9,8 +12,6 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
-	"net/http"
-	"testing"
 )
 
 func TestDeleteItemsReservation_Ok(t *testing.T) {

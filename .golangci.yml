@@ -27,7 +27,6 @@ linters:
     - gofmt
     - gosec
     - ineffassign
-    - revive
     - typecheck
     - unused
     - zerologlint

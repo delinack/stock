@@ -2,9 +2,9 @@ package item_domain
 
 import (
 	"errors"
-	"github.com/delinack/stock/internal/pkg/custom_error"
 	"net/http"
 
+	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/rs/zerolog/log"
 )

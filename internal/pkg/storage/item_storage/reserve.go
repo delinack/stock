@@ -5,11 +5,11 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/delinack/stock/internal/pkg/custom_error"
-	"github.com/rs/zerolog/log"
 
+	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/jmoiron/sqlx"
+	"github.com/rs/zerolog/log"
 )
 
 // ReserveItems резервирование товаров на определённых складах

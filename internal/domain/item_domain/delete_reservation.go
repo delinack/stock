@@ -2,10 +2,11 @@ package item_domain
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/rs/zerolog/log"
-	"net/http"
 )
 
 func (d *itemDomain) DeleteItemsReservation(r *http.Request, args *domain_model.DeleteItemsReserveRequest, response *interface{}) error {

@@ -3,8 +3,8 @@ package stock_service
 import (
 	"context"
 	"fmt"
-	"github.com/delinack/stock/internal/pkg/custom_error"
 
+	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/delinack/stock/internal/pkg/service/serializer"
 	"github.com/rs/zerolog/log"

@@ -1,6 +1,9 @@
 package stock_domain
 
 import (
+	"net/http"
+	"testing"
+
 	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/delinack/stock/internal/pkg/mock/storage_mock"
@@ -11,8 +14,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/guregu/null.v4"
-	"net/http"
-	"testing"
 )
 
 func TestGetItemsQuantity_Ok(t *testing.T) {

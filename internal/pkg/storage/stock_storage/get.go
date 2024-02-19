@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/delinack/stock/internal/pkg/custom_error"
 
+	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/domain_model"
 	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/google/uuid"

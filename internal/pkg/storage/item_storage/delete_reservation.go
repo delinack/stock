@@ -5,12 +5,12 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/delinack/stock/internal/pkg/custom_error"
-	"github.com/rs/zerolog/log"
 
+	"github.com/delinack/stock/internal/pkg/custom_error"
 	"github.com/delinack/stock/internal/pkg/model"
 	"github.com/delinack/stock/internal/pkg/service/serializer"
 	"github.com/jmoiron/sqlx"
+	"github.com/rs/zerolog/log"
 	"gopkg.in/guregu/null.v4"
 )
 
