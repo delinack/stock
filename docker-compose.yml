@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  stock:
+    container_name: stock
+    restart: always
+    stop_signal: SIGINT
+    stop_grace_period: 5s
+    build: .
+    environment:
+      - POSTGRES_HOST=postgres
+    env_file:
+      - .env
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  migrate:
+    container_name: migrate
+    image: dangdancheg/goose:0.0.2
+    stop_signal: SIGINT
+    stop_grace_period: 5s
+    env_file:
+      - .env
+    volumes:
+      - ./migrations:/migrations
+    platform:
+      linux/amd64
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: goose -allow-missing -dir /migrations postgres "user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} host=postgres dbname=${POSTGRES_DB} sslmode=disable" up
+
+  postgres:
+      container_name: postgres
+      image: postgres
+      restart: always
+      stop_signal: SIGINT
+      stop_grace_period: 5s
+      env_file:
+        - .env
+      ports:
+        - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+        interval: 1s
